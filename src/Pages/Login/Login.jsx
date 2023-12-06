@@ -7,8 +7,8 @@ import { CiFacebook } from "react-icons/ci";
 const Login = () => {
     return (
         <div className="">
-            <div className="max-w-5xl mx-auto backdrop-blur-sm bg-white/30 items-center text-center p-20">
-                <h1 className="text-4xl font-serif mb-2">Log in to Account</h1>
+            <div className="max-w-6xl mx-auto backdrop-blur-sm bg-white/30 items-center text-center p-20">
+                <h1 className="text-2xl font-bold md:text-4xl font-serif mb-2">Log in to Account</h1>
                 <p className="text-sm font-serif mb-6">Welcome back! Select methood to log in.</p>
 
                 <form className="max-w-sm mx-auto">
@@ -29,8 +29,14 @@ const Login = () => {
                         </div>
                         <input type="password" id="password-icon" className="bg-white border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-white dark:border-gray-600 dark:placeholder-black dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" />
                     </div>
-                    <div>
-                        <h1 className="text-sm ms-2 text-start mt-2 font-serif text-blue-600">Forgate password?</h1>
+                    <div className="flex items-center justify-between">
+                        <div className="flex mt-6 mb-6 items-center">
+                            <div className="flex items-center h-5">
+                                <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
+                            </div>
+                            <label htmlFor="remember" className="ms-[2px] text-sm font-medium text-gray-900 dark:text-gray-300 font-serif">Remember me</label>
+                        </div>
+                        <h1 className="text-sm  text-start font-serif text-blue-600 ">Forgate password?</h1>
                     </div>
                     <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-6 font-serif me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Log in</button>
                 </form>
@@ -44,23 +50,23 @@ const Login = () => {
                 <div>
                     <div className="inline-flex items-center justify-center w-full">
                         <hr className="w-72 h-px my-8 bg-gray-200  border-0 dark:bg-gray-700"></hr>
-                            <span className="absolute px-3 font-medium text-black -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900 text-lg font-serif">or continue with</span>
+                        <span className="absolute px-3 font-medium text-black -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900 text-lg font-serif">or continue with</span>
                     </div>
-                    <div>
-                    <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                        
-                        <div className="flex items-center gap-2 text-lg font-serif">
-                            <h1>Google</h1>
-                        <FcGoogle className="text-2xl"></FcGoogle>
-                        </div>
-                    </button>
-                    <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                        
-                        <div className="flex items-center gap-2 text-lg font-serif">
-                            <h1>Facebook</h1>
-                        <CiFacebook className="text-2xl text-blue-700"></CiFacebook>
-                        </div>
-                    </button>
+                    <div className="flex justify-center items-center gap-4">
+                        <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+
+                            <div className="flex items-center gap-2 text-lg font-serif">
+                                <h1>Google</h1>
+                                <FcGoogle className="text-2xl"></FcGoogle>
+                            </div>
+                        </button>
+                        <button type="button" className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+
+                            <div className="flex items-center gap-2 text-lg font-serif">
+                                <h1>Facebook</h1>
+                                <CiFacebook className="text-2xl text-blue-700"></CiFacebook>
+                            </div>
+                        </button>
                     </div>
                 </div>
 

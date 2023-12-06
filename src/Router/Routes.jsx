@@ -3,6 +3,8 @@ import Main from "../Layouts/Main";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Signup/Signup";
 import Home from "../Pages/Home/Home";
+import Wishlists from "../Pages/Wishlists/Wishlists";
+import Dashboard from "../Layouts/Dashboard";
 
 
 const Routes = createBrowserRouter(
@@ -14,18 +16,27 @@ const Routes = createBrowserRouter(
                 [
                     {
                         index: true,
-                        element:<Home></Home>
-                    },
-                    
-                    {
-                        path:'/login',
-                        element:<Login></Login>
+                        element: <Home></Home>
                     },
                     {
-                        path:'/signup',
-                        element:<Signup></Signup>
+                        path: '/wishlists',
+                        element: <Wishlists></Wishlists>
+                    },
+
+                    {
+                        path: '/login',
+                        element: <Login></Login>
+                    },
+                    {
+                        path: '/signup',
+                        element: <Signup></Signup>
                     }
                 ]
+        }
+        ,
+        {
+            path:"/dashboard",
+            element:<Dashboard></Dashboard>
         }
     ])
 

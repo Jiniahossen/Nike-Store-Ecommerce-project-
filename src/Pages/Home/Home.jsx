@@ -1,9 +1,15 @@
+import CategoryItems from "../../Components/CategoryItems/CategoryItems";
+import Offer from "../../Components/Offer/Offer";
 
 
 const Home = () => {
     return (
         <div>
-            <h1>Home</h1>
+            {/* offer items */}
+            <Offer></Offer>
+            {/* category item */}
+            <CategoryItems></CategoryItems>
+
         </div>
     );
 };

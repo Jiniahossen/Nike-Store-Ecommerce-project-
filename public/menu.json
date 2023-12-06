@@ -1,27 +1,22 @@
 [
-    {
-      "id": 1,
-      "category_name": "Chicken Breast",
-      "category_img": "https://i.ibb.co/zHz4Z50/top-view-grilled-chicken-peas-pan-with-chilli-peppers.jpg",
-      "price": 15
-    },
-    {
-      "id": 2,
-      "category_name": "Stir-fried Vegetable",
-      "category_img": "https://i.ibb.co/PGqY6T7/top-view-sliced-vegetable-salad-inside-plate-dark-blue-surface.jpg",
-      "price": 18
-    },
-    {
-      "id": 3,
-      "category_name": "Roast Beef",
-      "category_img": "https://i.ibb.co/wzFCtW7/grilled-beef-steak-dark-wooden-surface.jpg",
-      "price": 25
-    },
-    {
-      "id": 4,
-      "category_name": "Boiled Corn",
-      "category_img": "https://i.ibb.co/9VdVjck/close-up-view-bowl-full-corn-seed-with-wooden-spoon-corn-with-shell-wooden-table.jpg",
-      "price": 21
-    }
-  ]
-  
+  {
+    "category_name": "Chicken Breast",
+    "category_img": "https://i.ibb.co/zHz4Z50/top-view-grilled-chicken-peas-pan-with-chilli-peppers.jpg",
+    "price": 15
+  },
+  {
+    "category_name": "Stir-fried Vegetable",
+    "category_img": "https://i.ibb.co/PGqY6T7/top-view-sliced-vegetable-salad-inte-dark-blue-surface.jpg",
+    "price": 18
+  },
+  {
+    "category_name": "Roast Beef",
+    "category_img": "https://i.ibb.co/wzFCtW7/grilled-beef-steak-dark-wooden-surface.jpg",
+    "price": 25
+  },
+  {
+    "category_name": "Boiled Corn",
+    "category_img": "https://i.ibb.co/9VdVjck/close-up-view-bowl-full-corn-seed-with-wooden-spoon-corn-with-shell-wooden-table.jpg",
+    "price": 21
+  }
+]
