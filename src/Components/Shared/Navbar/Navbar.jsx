@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Profile from "../Profile/Profile";
 import { IoCartOutline } from "react-icons/io5";
 import { MdFavoriteBorder } from "react-icons/md";
+import logo from '../../../assets/7431863-removebg-preview.png';
 
 
 const Navbar = () => {
@@ -10,7 +11,9 @@ const Navbar = () => {
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-center md:text-start">FoodGarden</span>
+                    <div className="self-center flex items-center text-2xl font-semibold whitespace-nowrap dark:text-white text-center md:text-start">
+                        <img src={logo} alt="" className=" h-14" />
+                    </div>
 
                     <div className="flex md:order-2 gap-4 items-center font-serif space-x-3 md:space-x-0 rtl:space-x-reverse">
                         <div>
@@ -40,7 +43,7 @@ const Navbar = () => {
                         </button>
                     </div>
                     <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
-                        <ul className="flex flex-col font-serif text-lg font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                        <ul className="flex items-center flex-col font-serif text-lg font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             <li>
                                 <Link to={'/'}>
                                     Home
@@ -67,9 +70,6 @@ const Navbar = () => {
                 </div>
 
             </nav>
-            <div>
-                <Profile></Profile>
-            </div>
         </div>
     );
 };

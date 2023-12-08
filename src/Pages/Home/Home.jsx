@@ -1,12 +1,13 @@
 import CategoryItems from "../../Components/CategoryItems/CategoryItems";
-import Offer from "../../Components/Offer/Offer";
+import Slider from "../../Components/Slider/Slider";
 
 
 const Home = () => {
     return (
         <div>
             {/* offer items */}
-            <Offer></Offer>
+            <Slider></Slider>
+            
             {/* category item */}
             <CategoryItems></CategoryItems>
 
