@@ -7,11 +7,11 @@ import { IoEyeOutline } from "react-icons/io5";
 
 const Login = () => {
     return (
-        <div className="bg-cover min-h-screen p-6 pb-10 mt-10"  style={{ backgroundImage: `url(https://i.ibb.co/94Kk91C/top-view-table-full-delicious-food-composition.jpg)` }}>
+        <div className="bg-cover min-h-screen p-6 pb-10 mt-10"  style={{ backgroundImage: `url(https://i.ibb.co/9Y1SFyT/yellow-sports-shoe-with-elegant-design-generated-by-ai.jpg)` }}>
             <div className="max-w-4xl mx-auto backdrop-blur-sm bg-white/30 items-center text-center p-6 md:p-20 mt-10">
                 <div className="">
-                    <h1 className="text-2xl text-white font-bold md:text-4xl font-serif mb-2">Log in to Account</h1>
-                    <p className="text-sm font-serif mb-6 text-white">Welcome back! Select methood to log in.</p>
+                    <h1 className="text-2xl text-black font-bold md:text-4xl font-serif mb-2">Log in to Account</h1>
+                    <p className="text-sm font-serif mb-6 text-black">Welcome back! Select methood to log in.</p>
 
                     <form className="max-w-sm mx-auto">
                         <div className="relative mb-4">

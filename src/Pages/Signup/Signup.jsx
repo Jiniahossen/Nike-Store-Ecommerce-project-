@@ -32,10 +32,10 @@ const Signup = () => {
 
     return (
         <div>
-            <div className="bg-cover min-h-screen p-6 pb-10 mt-10" style={{ backgroundImage: `url(https://i.ibb.co/94Kk91C/top-view-table-full-delicious-food-composition.jpg)` }}>
+            <div className="bg-cover min-h-screen p-6 pb-10 mt-10" style={{ backgroundImage: `url(https://i.ibb.co/9Y1SFyT/yellow-sports-shoe-with-elegant-design-generated-by-ai.jpg)` }}>
                 <div className="max-w-5xl mx-auto backdrop-blur-sm bg-white/30 items-center text-center p-6 md:p-20 mt-10">
-                    <h1 className="text-2xl md:text-4xl font-serif font-bold mb-2 text-white">Create an Account</h1>
-                    <p className="text-sm font-serif mb-6 text-white">Stay with FoodGarden</p>
+                    <h1 className="text-2xl md:text-4xl font-serif font-bold mb-2 text-black">Create an Account</h1>
+                    <p className="text-sm font-serif mb-6 text-black">Stay with FoodGarden</p>
                     <form className="max-w-sm mx-auto" onSubmit={handleFormSubmit}>
                         <div className="relative mb-4">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -44,7 +44,7 @@ const Signup = () => {
                             <input type="test"  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-white dark:border-gray-600 dark:placeholder-black  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="user Name" name="name" />
                         </div>
                         <div className="relative mb-4">
-                        <label className="block text-start font-serif text-white mb-2 text-base font-medium  dark:text-white" htmlFor="multiple_files">Upload Image:</label>
+                        <label className="block text-start font-serif text-black mb-2 text-base font-medium  dark:text-black" htmlFor="multiple_files">Upload Image:</label>
                         <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" required name="image" />
                         </div>
                         <div className="relative mb-4">
