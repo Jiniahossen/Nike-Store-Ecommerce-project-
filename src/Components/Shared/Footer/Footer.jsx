@@ -8,7 +8,6 @@ const Footer = () => {
             <footer className="bg-white rounded-lg  dark:bg-gray-900 m-4">
                 <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
                     <div className="sm:flex sm:items-center sm:justify-between">
-
                         <Link to={'/'} className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
                             <img src={logo} className="h-16" alt="Flowbite Logo" />
                         </Link>
@@ -19,23 +18,27 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to={'/about'}>
-                                    About
+                                <Link to={'/products'}>
+                                    Products
                                 </Link>
                             </li>
+                            <li>
+                                <Link to={'/contact'}>
+                                    Contact
+                                </Link>
+                            </li>
+                            
                         </ul>
                     </div>
                     <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-                    <span className="block text-sm font-serif sm:text-center text-black">© 2023
+                    <span className="block text-sm font-serif sm:text-center text-black">© 2023 
                         <Link to={'/'}>
-                            Cross Country™
+                             Cross Country™
                         </Link>
                         . All Rights Reserved.
                     </span>
                 </div>
             </footer>
-
-
         </div>
     );
 };

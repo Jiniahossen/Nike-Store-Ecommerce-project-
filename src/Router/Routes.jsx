@@ -5,6 +5,7 @@ import Signup from "../Pages/Signup/Signup";
 import Home from "../Pages/Home/Home";
 import Wishlists from "../Pages/Wishlists/Wishlists";
 import Dashboard from "../Layouts/Dashboard";
+import Post from "../Components/Products/Post";
 
 
 const Routes = createBrowserRouter(
@@ -22,6 +23,10 @@ const Routes = createBrowserRouter(
                         path: '/wishlists',
                         element: <Wishlists></Wishlists>
                     },
+                    {
+                        path: '/products',
+                        element: <Post></Post>
+                    },
 
                     {
                         path: '/login',
@@ -35,8 +40,8 @@ const Routes = createBrowserRouter(
         }
         ,
         {
-            path:"/dashboard",
-            element:<Dashboard></Dashboard>
+            path: "/dashboard",
+            element: <Dashboard></Dashboard>
         }
     ])
 

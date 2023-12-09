@@ -15,7 +15,7 @@ const Slider = () => {
                     effect={'coverflow'}
                     grabCursor={true}
                     centeredSlides={true}
-                    initialSlide={3}
+                    initialSlide={5}
                     slidesPerView={'auto'}
                     coverflowEffect={{
                         rotate: 50,
@@ -43,7 +43,7 @@ const Slider = () => {
                         <img src="https://i.ibb.co/RCFPcXQ/images-8.jpg" className='h-full' />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <img src="https://i.ibb.co/5WDw05p/download-3.jpg" className='h-full' />
+                        <img src="https://i.ibb.co/tLv7rfr/run-nike-running-shoes-646cdd1a19c41.jpg" className='h-full' />
                     </SwiperSlide>
                     <SwiperSlide>
                         <img src="https://i.ibb.co/2P4kktn/images-6.jpg" className='h-full' />

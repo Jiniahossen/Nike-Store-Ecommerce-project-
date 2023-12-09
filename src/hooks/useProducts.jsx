@@ -3,17 +3,17 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useProducts = () => {
     const axiosPublic=useAxiosPublic();
-    const {data:shoe=[]}= useQuery({
+    const {data:shoe=[],refetch}= useQuery({
         queryKey:['shoe'],
         queryFn:async()=>{
-            const res=await axiosPublic.get('');
+            const res=await axiosPublic.get('http://localhost:5000/products');
             return res.data;
         }
     })
 
 
 
-    return[shoe]
+    return[shoe,refetch]
 };
 
 export default useProducts;
