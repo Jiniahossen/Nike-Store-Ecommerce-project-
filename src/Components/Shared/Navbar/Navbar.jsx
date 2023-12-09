@@ -12,7 +12,7 @@ const Navbar = () => {
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
                     <div className="self-center flex items-center text-2xl font-semibold whitespace-nowrap dark:text-white text-center md:text-start">
-                        <img src={logo} alt="" className=" h-14" />
+                        <img src={logo} alt="" className=" h-16" />
                     </div>
 
                     <div className="flex md:order-2 gap-4 items-center font-serif space-x-3 md:space-x-0 rtl:space-x-reverse">

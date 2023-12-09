@@ -21,7 +21,7 @@ const CategoryItems = () => {
         <div className="mt-20">
             <Container>
                 {/* search input */}
-                <h1 className="text-3xl mb-4 font-bold font-serif text-center">Menu</h1>
+                <h1 className="text-3xl mb-4 font-bold font-serif text-center">Category</h1>
                 <div className="max-w-2xl mx-auto">
                     <form className="flex items-center">
                         <label htmlFor="voice-search" className="sr-only">Search</label>
@@ -31,7 +31,7 @@ const CategoryItems = () => {
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
-                            <input type="text" id="voice-search" className="bg-gray-50 border py-4  border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chicken , Roast Beef..." required />
+                            <input type="text" id="voice-search" className="bg-gray-50 border py-3  border-gray-300 font-serif text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Running, lifestyle..." required />
                             <button type="button" className="absolute inset-y-0 end-0 flex items-center pe-3">
 
                                 {/* Mic svg */}
@@ -44,48 +44,8 @@ const CategoryItems = () => {
                 </div>
 
                 {/* category items */}
-
-                <div className="mt-10">
-                    <h1 className="text-2xl font-serif mb-4">Menu</h1>
-                    <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-                        {offer.map(item => (
-                            <div key={item._id} className="rounded-lg h-[150px] bg-cover" style={{ backgroundImage: `url(${item.category_img})` }}>
-
-                                <div className=" h-[50px] md:h-[40px] backdrop-blur-[2px] bg-white/50  mt-[60px] md:mt-[60px] flex  justify-center items-center">
-                                    <h1 className="text-lg font-serif text-black text-center">{item.category_name}</h1>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="mt-10">
-                    <h1 className="text-2xl font-serif mb-4">Menu</h1>
-                    <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-                        {offer.map(item => (
-                            <div key={item._id} className="rounded-lg h-[150px] bg-cover" style={{ backgroundImage: `url(${item.category_img})` }}>
-
-                                <div className=" h-[50px] md:h-[40px] backdrop-blur-[2px] bg-white/50  mt-[60px] md:mt-[60px] flex  justify-center items-center">
-                                    <h1 className="text-lg font-serif text-black text-center">{item.category_name}</h1>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
                 
-                <div className="mt-10">
-                    <h1 className="text-2xl font-serif mb-4">Menu</h1>
-                    <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-                        {offer.map(item => (
-                            <div key={item._id} className="rounded-lg h-[150px] bg-cover" style={{ backgroundImage: `url(${item.category_img})` }}>
-
-                                <div className=" h-[50px] md:h-[40px] backdrop-blur-[2px] bg-white/50  mt-[60px] md:mt-[60px] flex  justify-center items-center">
-                                    <h1 className="text-lg font-serif text-black text-center">{item.category_name}</h1>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                
               
                 
             </Container>
