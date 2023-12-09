@@ -6,6 +6,7 @@ import Home from "../Pages/Home/Home";
 import Wishlists from "../Pages/Wishlists/Wishlists";
 import Dashboard from "../Layouts/Dashboard";
 import Post from "../Components/Products/Post";
+import Details from "../Pages/Details/Details";
 
 
 const Routes = createBrowserRouter(
@@ -26,6 +27,10 @@ const Routes = createBrowserRouter(
                     {
                         path: '/products',
                         element: <Post></Post>
+                    },
+                    {
+                        path: '/details/:id',
+                        element: <Details></Details>
                     },
 
                     {
