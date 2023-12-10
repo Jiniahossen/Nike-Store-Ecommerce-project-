@@ -1,4 +1,3 @@
-
 import useProducts from "../../hooks/useProducts";
 import Container from "../Shared/Container/Container";
 import SinglePost from "./SinglePost";
@@ -12,6 +11,7 @@ const colors = [
     { code: "e8e8e8", name: "Gray" },
     { code: "#f6d804", name: "Yellow" },
     { code: "#6bcaeb", name: "Blue" },
+    { code: "#FFA500", name: "Orange" },
 ];
 
 const categories = ["Running", "Lifestyle"];
@@ -20,6 +20,7 @@ const priceRanges = ["$0-50", "$50-100", "$100-150"];
 
 const Post = () => {
     const [shoe] = useProducts([]);
+    console.log(shoe);
   
 
     return (
