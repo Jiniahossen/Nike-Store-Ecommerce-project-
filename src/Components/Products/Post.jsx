@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import useProducts from "../../hooks/useProducts";
 import Container from "../Shared/Container/Container";
 import SinglePost from "./SinglePost";
@@ -12,6 +13,7 @@ const colors = [
     { code: "#f6d804", name: "Yellow" },
     { code: "#6bcaeb", name: "Blue" },
     { code: "#FFA500", name: "Orange" },
+    { code: "#30D5C8", name: "Turquoise" }
 ];
 
 const categories = ["Running", "Lifestyle"];
@@ -25,8 +27,11 @@ const Post = () => {
 
     return (
         <Container>
-            <div className="flex my-20 gap-10 min-h-screen">
-                <div className="overflow-y-auto">
+            <Helmet>
+                <title>CrossCountry | Products</title>
+            </Helmet>
+            <div className="flex my-20 gap-10 md:p-10 lg:p-0 min-h-screen">
+                <div className="overflow-y-auto overflow-x-auto">
                     <div className="text-lg font-serif mb-6">
                         <h1 className="text-xl font-serif font-semibold mb-2">
                            Title:
@@ -54,7 +59,7 @@ const Post = () => {
                         <h1 className="text-xl font-serif font-semibold mb-2">
                             Color:
                         </h1>
-                        <div className="grid grid-cols-5 gap-2">
+                        <div className="grid grid-cols-4 gap-2">
                             {colors.map((color, index) => (
                                 <div key={index} className="flex-row">
                                     <div
@@ -116,7 +121,7 @@ const Post = () => {
                 </div>
 
                 {/* Post */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {shoe.map((item) => (
                         <SinglePost key={item._id} item={item}></SinglePost>
                     ))}

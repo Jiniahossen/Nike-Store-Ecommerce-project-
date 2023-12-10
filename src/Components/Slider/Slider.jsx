@@ -15,7 +15,7 @@ const Slider = () => {
                     effect={'coverflow'}
                     grabCursor={true}
                     centeredSlides={true}
-                    initialSlide={5}
+                    initialSlide={3}
                     slidesPerView={'auto'}
                     coverflowEffect={{
                         rotate: 50,
