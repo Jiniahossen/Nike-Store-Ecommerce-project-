@@ -22,7 +22,7 @@ const priceRanges = ["$0-50", "$50-100", "$100-150"];
 
 const Post = () => {
     const [shoe] = useProducts([]);
-    console.log(shoe);
+   
   
 
     return (
