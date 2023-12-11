@@ -13,11 +13,14 @@ import './makeup.css'
 const Details = () => {
     // Fetching products using custom hook
     const [shoe] = useProducts([]);
+   
 
     //for rating star
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
     const [totalStars, setTotalStars] = useState(5);
+
+    //available quantity 
 
     //rating function
     const handleChange = (e) => {
@@ -145,7 +148,8 @@ const Details = () => {
                                                 }`}
                                             onClick={() => handleSizeClick(size)}
                                         >
-                                            {size}
+                                            <h1>{size}</h1>
+                                            {/* <h1>{selectedData?.quantity && selectedData?.quantity?.map((,index))}</h1> */}
                                         </span>
                                     ))}
                                 </div>
@@ -219,7 +223,7 @@ const Details = () => {
                 </div>
 
                 {/* Additional product information */}
-                <div className='my-14 overflow-y-auto'>
+                <div className='my-14 overflow-y-auto font-serif'>
                     <Tabs>
                         <TabList>
                             <Tab>Details</Tab>
