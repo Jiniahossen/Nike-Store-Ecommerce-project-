@@ -112,34 +112,47 @@ const Details = () => {
           return;
         }
       
-        // Construct the object with selected information
+        // Convert price and count to floats
+        const itemPrice = parseFloat(selectedData?.price);
+        const itemCount = parseFloat(count);
+      
+        // Check if the conversion was successful
+        if (isNaN(itemPrice) || isNaN(itemCount)) {
+          alert('Invalid price or quantity');
+          return;
+        }
+      
+        // Calculate the total price based on quantity
+        const totalPrice = itemPrice * itemCount;
+      
+      
         const selectedItem = {
           title: selectedData?.title,
           category: selectedData?.category,
-          price: selectedData?.price,
+          price: totalPrice,
           selectedImage: selectedImage,
           selectedSize: selectedSize,
           selectedColor: selectedColor,
-          quantity: count,
-          email:userEmail,
+          quantity: itemCount,
+          email: userEmail,
         };
-
+      
+        // Make the API call to add the item to the cart
         axiosPublic.post('/cart', selectedItem)
-        .then((res) => {
+          .then((res) => {
             console.log(res.data);
             if (res.data.insertedId) {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Product added to the cart!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Product added to the cart!",
+                showConfirmButton: false,
+                timer: 1500
+              });
             }
-        })
-      
-     
+          });
       };
+      
 
     return (
         <div className="my-20">
