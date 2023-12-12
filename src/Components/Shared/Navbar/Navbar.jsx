@@ -4,10 +4,12 @@ import { MdFavoriteBorder } from "react-icons/md";
 import logo from '../../../assets/7431863-removebg-preview.png';
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useUserCart from "../../../hooks/useUserCart";
 
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
+    const [userCart, refetch] = useUserCart();
 
 
     const handleLogOut = () => {
@@ -32,9 +34,10 @@ const Navbar = () => {
                                     {
                                         user ?
                                             <div className="navbar-end flex items-center gap-2">
-                                                <li><img src={user.photoURL} className="rounded-full w-10" /></li>
+                                                <li><img src={user.photoURL} className="rounded-full w-8" /></li>
                                                 <li><h1>{user.displayName}</h1></li>
                                                 <li><button className=" text-[#fe3c13] px-4 font-serif" onClick={handleLogOut}>Logout</button></li>
+                                              
                                             </div>
                                             :
                                             <div className="navbar-end flex gap-2">
@@ -55,8 +58,11 @@ const Navbar = () => {
                                 </Link>
                             </button>
                             <button type="button" className="text-black  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  text-center font-serif">
-                                <Link to={'/cart'}>
+                                <Link to={'/cart'} className="relative inline-flex">
                                     <IoCartOutline className="text-3xl "></IoCartOutline>
+                                    <span className="sr-only">Notifications</span>
+                                    <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{userCart?.length}</div>
+
                                 </Link>
                             </button>
 

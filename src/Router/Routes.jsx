@@ -7,7 +7,7 @@ import Wishlists from "../Pages/Wishlists/Wishlists";
 import Dashboard from "../Layouts/Dashboard";
 import Post from "../Components/Products/Post";
 import Details from "../Pages/Details/Details";
-import UserCart from "../Components/userCart/UserCart";
+import UserCart from "../Pages/userCart/UserCart";
 
 
 const Routes = createBrowserRouter(

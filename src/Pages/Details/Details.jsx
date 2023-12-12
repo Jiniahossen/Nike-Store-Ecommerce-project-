@@ -209,6 +209,55 @@ const Details = () => {
     };
 
 
+    const handleAddToWishList=()=>{
+        if (!selectedSize || !selectedColor || !selectedImage) {
+            alert('Please select size, color, and image before adding to cart');
+            return;
+        }
+
+        // Convert price and count to floats
+        const itemPrice = parseFloat(selectedData?.price);
+        const itemCount = parseFloat(count);
+
+        // Check if the conversion was successful
+        if (isNaN(itemPrice) || isNaN(itemCount)) {
+            alert('Invalid price or quantity');
+            return;
+        }
+
+        // Calculate the total price based on quantity
+        const totalPrice = itemPrice * itemCount;
+
+
+        const selectedItem = {
+            title: selectedData?.title,
+            category: selectedData?.category,
+            price: totalPrice,
+            selectedImage: selectedImage,
+            selectedSize: selectedSize,
+            selectedColor: selectedColor,
+            quantity: itemCount,
+            email: userEmail,
+            itemID: selectedData._id,
+        };
+
+        // Make the API call to add the item to the cart
+        axiosPublic.post('/wishlist', selectedItem)
+            .then((res) => {
+                console.log(res.data);
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Add product to your wishlist!Hurry up and grab it",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+    }
+
+
     return (
         <div className="my-20">
             <Container>
@@ -329,6 +378,7 @@ const Details = () => {
                                 <button
                                     type="button"
                                     className="text-white w-full flex items-center justify-center text-center bg-black rounded-2xl font-serif font-medium text-lg px-5 py-1 me-2 mb-2"
+                                    onClick={handleAddToWishList}
                                 >
                                     <h1 className="text-base flex-grow text-center">Add to wishlist</h1>
                                     <MdFavoriteBorder className="text-2xl" />
