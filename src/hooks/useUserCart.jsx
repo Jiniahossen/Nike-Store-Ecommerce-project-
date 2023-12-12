@@ -14,7 +14,7 @@ const useUserCart = () => {
         }
     })
 
-    return [userCart, refetch]
+    return [userCart, refetch];
 };
 
 export default useUserCart;

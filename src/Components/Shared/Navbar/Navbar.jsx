@@ -80,11 +80,11 @@ const Navbar = () => {
                                     Products
                                 </Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <Link to={'/dashboard'}>
                                     Dashboard
                                 </Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link to={'/contact'}>
                                     Contact
@@ -93,7 +93,6 @@ const Navbar = () => {
                         </ul>
                     </div>
                 </div>
-
             </nav>
         </div>
     );

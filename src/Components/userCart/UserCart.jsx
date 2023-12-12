@@ -109,8 +109,6 @@ const UserCart = () => {
     };
     
     
-
-    console.log(userCart);
     return (
         <Container>
             <div className="mt-20 mb-10 overflow-x-auto">

@@ -12,26 +12,86 @@ import './makeup.css'
 import useAuth from '../../hooks/useAuth';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
+import useUserCart from '../../hooks/useUserCart';
+import useReviews from '../../hooks/useReviews';
 
 const Details = () => {
+
+    const axiosPublic = useAxiosPublic();
     // Fetching products using custom hook
     const [shoe] = useProducts([]);
+    const [userCart] = useUserCart();
+ 
+    // finding the ID parameter from the route
+    const { id } = useParams();
+    // Finding the selected data based on the ID
+    const selectedData = shoe.find((data) => data._id === id);
 
-    const axiosPublic=useAxiosPublic();
+    const [review, refetch] = useReviews([]);
+    const selectedReview = review.some((data) => data.itemID===selectedData._id);
+
+
+    //formate date
+    const formatDate = (dateString) => {
+        const dateObj = new Date(dateString);
+        const day = dateObj.getDate();
+        const month = dateObj.getMonth() + 1;
+        const year = dateObj.getFullYear();
+        return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+    };
+
+    // convert date formate 
+
+    const isProductInCart = userCart.some(item => item.itemID === selectedData._id);
+
+
+
 
     //current user
 
-    const {user}=useAuth();
+    const { user } = useAuth();
+    const userEmail = user?.email;
+    const userName = user?.displayName;
+    const profile = user?.photoURL;
 
-    const userEmail=user?.email;
-   
+    const [email, setEmail] = useState(userEmail);
+    const [message, setMessage] = useState('');
+
 
     //for rating star
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
     const [totalStars, setTotalStars] = useState(5);
 
-    //available quantity 
+    //review submission
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const formData = {
+            email: email,
+            message: message,
+            rating: rating,
+            name: userName,
+            img: profile,
+            ItemID: selectedData._id,
+            Date: new Date(),
+        };
+
+        axiosPublic.post('/reviews', formData)
+            .then((res) => {
+                refetch()
+                console.log(res.data)
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        title: "WOW!",
+                        text: "Review posted",
+                        icon: "success"
+                    });
+                }
+            })
+
+        // console.log(formData);
+    };
 
     //rating function
     const handleChange = (e) => {
@@ -56,12 +116,6 @@ const Details = () => {
         }
     };
 
-
-    // Extracting the ID parameter from the route
-    const { id } = useParams();
-
-    // Finding the selected data based on the ID
-    const selectedData = shoe.find((data) => data._id === id);
 
     // Filter the selected data based on the ID
     const filteredData = shoe.filter((data) => data.category === selectedData.category);
@@ -108,51 +162,52 @@ const Details = () => {
     const handleAddToCart = () => {
         // Check if all required fields are selected
         if (!selectedSize || !selectedColor || !selectedImage) {
-          alert('Please select size, color, and image before adding to cart');
-          return;
+            alert('Please select size, color, and image before adding to cart');
+            return;
         }
-      
+
         // Convert price and count to floats
         const itemPrice = parseFloat(selectedData?.price);
         const itemCount = parseFloat(count);
-      
+
         // Check if the conversion was successful
         if (isNaN(itemPrice) || isNaN(itemCount)) {
-          alert('Invalid price or quantity');
-          return;
+            alert('Invalid price or quantity');
+            return;
         }
-      
+
         // Calculate the total price based on quantity
         const totalPrice = itemPrice * itemCount;
-      
-      
+
+
         const selectedItem = {
-          title: selectedData?.title,
-          category: selectedData?.category,
-          price: totalPrice,
-          selectedImage: selectedImage,
-          selectedSize: selectedSize,
-          selectedColor: selectedColor,
-          quantity: itemCount,
-          email: userEmail,
+            title: selectedData?.title,
+            category: selectedData?.category,
+            price: totalPrice,
+            selectedImage: selectedImage,
+            selectedSize: selectedSize,
+            selectedColor: selectedColor,
+            quantity: itemCount,
+            email: userEmail,
+            itemID: selectedData._id,
         };
-      
+
         // Make the API call to add the item to the cart
         axiosPublic.post('/cart', selectedItem)
-          .then((res) => {
-            console.log(res.data);
-            if (res.data.insertedId) {
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Product added to the cart!",
-                showConfirmButton: false,
-                timer: 1500
-              });
-            }
-          });
-      };
-      
+            .then((res) => {
+                console.log(res.data);
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Product added to the cart!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+    };
+
 
     return (
         <div className="my-20">
@@ -297,7 +352,7 @@ const Details = () => {
                             <div className='flex justify-center h-[470px]'>
                                 <div className='flex-1'>
                                     <h1 className='text-xl font-serif flex font-semibold justify-center mb-6'>Left a review:</h1>
-                                    <form className="max-w-sm mx-auto">
+                                    <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
                                         {/* ratings */}
                                         <div>
                                             <div className="App">
@@ -336,119 +391,70 @@ const Details = () => {
                                         {/* Email */}
                                         <div className="mb-5">
                                             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white font-serif">Your email</label>
-                                            <input type="email" id="email" className="bg-gray-50 font-serif border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 " placeholder="name@flowbite.com" required />
+                                            <input type="email" id="email" className="bg-gray-50 font-serif border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 " value={userEmail} onChange={(e) => setEmail(e.target.value)} required />
                                         </div>
                                         {/* Review text */}
                                         <div className="mb-5">
                                             <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Review</label>
-                                            <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+                                            <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..." value={message}
+                                                onChange={(e) => setMessage(e.target.value)}></textarea>
                                         </div>
-                                        <button type="submit" className="text-white bg-[#fe3d13] focus:ring-4 focus:outline-none font-serif font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Submit</button>
+                                        <button
+                                            type="submit"
+                                            className={`text-white ${isProductInCart ? "bg-[#fe3d13]" : "bg-gray-400"
+                                                } focus:ring-4 focus:outline-none font-serif font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center `}
+                                            disabled={!isProductInCart}
+                                        >
+                                            Submit
+                                        </button>
                                     </form>
 
                                 </div>
                                 <div className='flex-1 overflow-y-auto'>
-                                    <h1 className='text-lg font-serif mb-6'> (Reviews 0)</h1>
+                                    <h1 className='text-lg font-serif mb-6'> (Reviews <span className='text-red-700'>{selectedReview.length}</span>)</h1>
                                     <div>
-                                        <p>
-                                            <article>
-                                                <div className="flex items-center mb-4">
-                                                    <img className="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="" />
-                                                    <div className="font-medium dark:text-white">
-                                                        <p>Jese Leos</p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                </div>
-                                                <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400"><p> <time dateTime="2017-03-03 19:00">March 3, 2017</time></p></footer>
-                                                <p className="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are just fantastic value for money. This one arrived yesterday and the first thing I did was set the time, popped on an identical strap from another Invicta and went in the shower with it to test the waterproofing.... No problems.</p>
-                                                <p className="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as those very expensive watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100! An absolute bargain.</p>
-                                                <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a>
-                                            </article>
+                                        <div>
+                                            <div>
+                                                {
+                                                    selectedReview?.length > 0 ? (selectedReview?.map((item) => (
+                                                        <p key={item._id}>
+                                                            <article>
+                                                                <div className="flex items-center mb-4">
+                                                                    <img className="w-10 h-10 me-4 rounded-full" src={item.img} alt="" />
+                                                                    <div className="font-medium dark:text-white">
+                                                                        <p>{item.name}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
+                                                                    {[...Array(Number(item.rating))].map((_, index) => (
+                                                                        <svg
+                                                                            key={index}
+                                                                            className="w-4 h-4 text-yellow-300"
+                                                                            aria-hidden="true"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="currentColor"
+                                                                            viewBox="0 0 22 20"
+                                                                        >
+                                                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                                        </svg>
+                                                                    ))}
+                                                                </div>
+                                                                <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                                                                    <p>
+                                                                        <time dateTime={item.Date}>{formatDate(item.Date)}</time>
+                                                                    </p>
+                                                                </footer>
+                                                                <p className="mb-2 text-gray-500 dark:text-gray-400">{item.message}</p>
+                                                            </article>
+                                                        </p>
+                                                    ))) : (
+                                                        <p className='text-xl font-serif'>No reviews available for this product.</p>
+                                                    )
+                                                }
 
-                                        </p>
-                                        <p>
-                                            <article>
-                                                <div className="flex items-center mb-4">
-                                                    <img className="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="" />
-                                                    <div className="font-medium dark:text-white">
-                                                        <p>Jese Leos</p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <h3 className="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to buy another one!</h3>
-                                                </div>
-                                                <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400"><p> <time dateTime="2017-03-03 19:00">March 3, 2017</time></p></footer>
-                                                <p className="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are just fantastic value for money. This one arrived yesterday and the first thing I did was set the time, popped on an identical strap from another Invicta and went in the shower with it to test the waterproofing.... No problems.</p>
-                                                <p className="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as those very expensive watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100! An absolute bargain.</p>
-                                                <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a>
-                                            </article>
+                                            </div>
 
-                                        </p>
-                                        <p>
-                                            <article>
-                                                <div className="flex items-center mb-4">
-                                                    <img className="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="" />
-                                                    <div className="font-medium dark:text-white">
-                                                        <p>Jese Leos</p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg className="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <h3 className="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to buy another one!</h3>
-                                                </div>
-                                                <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400"><p> <time dateTime="2017-03-03 19:00">March 3, 2017</time></p></footer>
-                                                <p className="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are just fantastic value for money. This one arrived yesterday and the first thing I did was set the time, popped on an identical strap from another Invicta and went in the shower with it to test the waterproofing.... No problems.</p>
-                                                <p className="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as those very expensive watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100! An absolute bargain.</p>
-                                                <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a>
-                                            </article>
-
-                                        </p>
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>
