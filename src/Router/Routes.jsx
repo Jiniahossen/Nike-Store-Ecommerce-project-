@@ -7,6 +7,7 @@ import Wishlists from "../Pages/Wishlists/Wishlists";
 import Dashboard from "../Layouts/Dashboard";
 import Post from "../Components/Products/Post";
 import Details from "../Pages/Details/Details";
+import UserCart from "../Components/userCart/UserCart";
 
 
 const Routes = createBrowserRouter(
@@ -23,6 +24,10 @@ const Routes = createBrowserRouter(
                     {
                         path: '/wishlists',
                         element: <Wishlists></Wishlists>
+                    },
+                    {
+                        path: '/cart',
+                        element:<UserCart></UserCart>
                     },
                     {
                         path: '/products',

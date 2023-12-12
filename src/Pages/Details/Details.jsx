@@ -9,10 +9,21 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import SinglePost from '../../Components/Products/SinglePost';
 import './makeup.css'
+import useAuth from '../../hooks/useAuth';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import Swal from 'sweetalert2';
 
 const Details = () => {
     // Fetching products using custom hook
     const [shoe] = useProducts([]);
+
+    const axiosPublic=useAxiosPublic();
+
+    //current user
+
+    const {user}=useAuth();
+
+    const userEmail=user?.email;
    
 
     //for rating star
@@ -92,6 +103,43 @@ const Details = () => {
             setSelectedImage(selectedColorImage ? selectedColorImage.img : selectedData.images[0]?.img);
         }
     };
+
+
+    const handleAddToCart = () => {
+        // Check if all required fields are selected
+        if (!selectedSize || !selectedColor || !selectedImage) {
+          alert('Please select size, color, and image before adding to cart');
+          return;
+        }
+      
+        // Construct the object with selected information
+        const selectedItem = {
+          title: selectedData?.title,
+          category: selectedData?.category,
+          price: selectedData?.price,
+          selectedImage: selectedImage,
+          selectedSize: selectedSize,
+          selectedColor: selectedColor,
+          quantity: count,
+          email:userEmail,
+        };
+
+        axiosPublic.post('/cart', selectedItem)
+        .then((res) => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product added to the cart!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+      
+     
+      };
 
     return (
         <div className="my-20">
@@ -205,7 +253,7 @@ const Details = () => {
                             <div className="mt-10">
                                 <button
                                     type="button"
-                                    className="text-gray-900 w-full bg-white border border-gray-300 focus:outline-none hover:bg-black focus:ring-4 focus:ring-gray-200 font-medium rounded-2xl font-serif text-lg px-5 py-1 me-2 mb-2 dark:bg-gray-800 dark:text-white hover:text-white  dark:hover:bg-black dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                    className="text-gray-900 w-full bg-white border border-gray-300 focus:outline-none hover:bg-black focus:ring-4 focus:ring-gray-200 font-medium rounded-2xl font-serif text-lg px-5 py-1 me-2 mb-2 dark:bg-gray-800 dark:text-white hover:text-white  dark:hover:bg-black dark:hover:border-gray-600 dark:focus:ring-gray-700" onClick={handleAddToCart}
                                 >
                                     Add to cart
                                 </button>

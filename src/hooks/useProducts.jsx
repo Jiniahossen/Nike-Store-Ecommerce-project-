@@ -6,7 +6,7 @@ const useProducts = () => {
     const {data:shoe=[],refetch}= useQuery({
         queryKey:['shoe'],
         queryFn:async()=>{
-            const res=await axiosPublic.get('http://localhost:5000/shoes');
+            const res=await axiosPublic.get('/shoes');
             return res.data;
         }
     })

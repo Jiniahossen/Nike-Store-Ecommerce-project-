@@ -2,9 +2,20 @@ import { Link } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { MdFavoriteBorder } from "react-icons/md";
 import logo from '../../../assets/7431863-removebg-preview.png';
+import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 
 const Navbar = () => {
+    const { user, logOut } = useAuth();
+
+
+    const handleLogOut = () => {
+        logOut()
+            .then(res => {
+                Swal.fire("You have logged out!");
+            })
+    }
     return (
         <div>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -17,10 +28,24 @@ const Navbar = () => {
                     <div className="flex md:order-2 gap-4 items-center font-serif space-x-3 md:space-x-0 rtl:space-x-reverse">
                         <div>
                             <ul>
-                                <li>
-                                    <Link to={'/login'}>Login/</Link>
-                                    <Link to={'/signup'}>Signup</Link>
-                                </li>
+                                <>
+                                    {
+                                        user ?
+                                            <div className="navbar-end flex items-center gap-2">
+                                                <li><img src={user.photoURL} className="rounded-full w-10" /></li>
+                                                <li><h1>{user.displayName}</h1></li>
+                                                <li><button className=" text-[#fe3c13] px-4 font-serif" onClick={handleLogOut}>Logout</button></li>
+                                            </div>
+                                            :
+                                            <div className="navbar-end flex gap-2">
+
+                                                <li>
+                                                    <Link to={'/login'}>Login/</Link>
+                                                    <Link to={'/signup'}>Signup</Link>
+                                                </li>
+                                            </div>
+                                    }
+                                </>
                             </ul>
                         </div>
                         <div>
@@ -30,7 +55,9 @@ const Navbar = () => {
                                 </Link>
                             </button>
                             <button type="button" className="text-black  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  text-center font-serif">
-                                <IoCartOutline className="text-3xl "></IoCartOutline>
+                                <Link to={'/cart'}>
+                                    <IoCartOutline className="text-3xl "></IoCartOutline>
+                                </Link>
                             </button>
 
                         </div>

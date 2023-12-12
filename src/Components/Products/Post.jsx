@@ -25,24 +25,44 @@ const priceRanges = ["$0-50", "$50-100", "$100-150"];
 const Post = () => {
     const [shoe] = useProducts([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedTitles, setSelectedTitles] = useState([]);
 
 
     //search product
-    const handleSearchChange = (event) => {
-        const query = event.target.value;
-        setSearchQuery(query);
-      };
+   
+  const handleSearchChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+  };
     
       const filteredProducts = shoe.filter((product) =>
         product.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
 
-    const handleRadioChange = (event) => {
-        const selectedColorCode = event.target.value;
-        // Handle the selected color code as needed
-    };
+      //checkbox title
 
+      const handleSearchTitle = (title) => {
+        // Check if the title is already selected
+        const isTitleSelected = selectedTitles.includes(title);
+    
+        // Update the selected titles array
+        const newSelectedTitles = isTitleSelected
+          ? selectedTitles.filter((selectedTitle) => selectedTitle !== title)
+          : [...selectedTitles, title];
+    
+        setSelectedTitles(newSelectedTitles);
+    
+        // Update the search query based on selected titles
+        const newSearchQuery = newSelectedTitles.join(' ');
+        setSearchQuery(newSearchQuery);
+      };
+
+      //color
+
+      const handleSearchColor=(color)=>{
+        console.log(color);
+      }
 
 
     return (
@@ -50,8 +70,6 @@ const Post = () => {
             <Helmet>
                 <title>CrossCountry | Products</title>
             </Helmet>
-
-
             <div className="flex my-20 gap-10 md:p-10 lg:p-0 min-h-screen">
                 <div className="overflow-y-auto overflow-x-auto">
                     <div className="text-lg font-serif mb-6">
@@ -63,6 +81,7 @@ const Post = () => {
                                 <input
                                     id={`title-checkbox-${item._id}`}
                                     type="checkbox"
+                                    onClick={()=>handleSearchTitle(item.title)}
                                     className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
                                 <label
@@ -89,7 +108,7 @@ const Post = () => {
                                         type="radio"
                                         value={color.code}
                                         name="color"
-                                        onChange={handleRadioChange}
+                                        onClick={()=>handleSearchColor(color.name)}
                                         className="hidden"
                                     />
                                     <label
