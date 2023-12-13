@@ -8,12 +8,14 @@ import Dashboard from "../Layouts/Dashboard";
 import Post from "../Components/Products/Post";
 import Details from "../Pages/Details/Details";
 import UserCart from "../Pages/userCart/UserCart";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 
 const Routes = createBrowserRouter(
     [
         {
             path: '/',
+            errorElement: <ErrorPage></ErrorPage>,
             element: <Main></Main>,
             children:
                 [
@@ -27,7 +29,7 @@ const Routes = createBrowserRouter(
                     },
                     {
                         path: '/cart',
-                        element:<UserCart></UserCart>
+                        element: <UserCart></UserCart>
                     },
                     {
                         path: '/products',

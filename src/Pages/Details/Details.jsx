@@ -28,7 +28,7 @@ const Details = () => {
     const selectedData = shoe.find((data) => data._id === id);
 
     const [review, refetch] = useReviews([]);
-    const selectedReview = review.some((data) => data.itemID===selectedData._id);
+    const selectedReview = review.some((data) => data?.itemID===selectedData?._id);
 
 
     //formate date
@@ -42,7 +42,7 @@ const Details = () => {
 
     // convert date formate 
 
-    const isProductInCart = userCart.some(item => item.itemID === selectedData._id);
+    const isProductInCart = userCart.some(item => item.itemID === selectedData?._id);
 
 
 

@@ -5,11 +5,13 @@ import logo from '../../../assets/7431863-removebg-preview.png';
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useUserCart from "../../../hooks/useUserCart";
+import useWishlist from "../../../hooks/useWishlist";
 
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
-    const [userCart, refetch] = useUserCart();
+    const [userCart, refetch] = useUserCart([0]);
+    const [wishlist,wishlistRefetch]=useWishlist([0]);
 
 
     const handleLogOut = () => {
@@ -53,15 +55,17 @@ const Navbar = () => {
                         </div>
                         <div>
                             <button type="button" className="text-black  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center font-serif">
-                                <Link to={'/wishlists'}>
+                                <Link to={'/wishlists'} className="relative inline-flex">
                                     <MdFavoriteBorder className="text-3xl "></MdFavoriteBorder>
+                                    <span className="sr-only">Notifications</span>
+                                    <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{wishlist?.length}</div>
                                 </Link>
                             </button>
                             <button type="button" className="text-black  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  text-center font-serif">
                                 <Link to={'/cart'} className="relative inline-flex">
                                     <IoCartOutline className="text-3xl "></IoCartOutline>
                                     <span className="sr-only">Notifications</span>
-                                    <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{userCart?.length}</div>
+                                    <div className="absolute inline-flex items-center justify-center  w-5 h-5 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{userCart?.length}</div>
 
                                 </Link>
                             </button>

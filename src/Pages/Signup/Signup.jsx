@@ -38,6 +38,7 @@ const Signup = () => {
               const userInfo = {
                 name: user.displayName,
                 email: user.email,
+                profile:user?.photoURL,
   
               }
               console.log(userInfo);
@@ -60,10 +61,11 @@ const Signup = () => {
     const handleGoogleSignIn=()=>{
         signInWithGoogle()
         .then(res=>{
- 
+            console.log(res.data);
          const userInfo={
              email:res.user.email,
-             name:res.user.displayName
+             name:res.user.displayName,
+             photo:res.data.photoURL
          }
  
          axiosPublic.post('/users',userInfo)
